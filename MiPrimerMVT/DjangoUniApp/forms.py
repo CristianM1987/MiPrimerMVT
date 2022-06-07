@@ -9,3 +9,16 @@ class PersonaForm(forms.Form):
     
 class BuscarPersonasForm(forms.Form):
     palabra_a_buscar = forms.CharField(label="Buscar")
+
+class BuscarAnimalForm(forms.Form):
+    palabra_a_buscar = forms.CharField(label="Buscar")
+
+class BuscarVegetalForm(forms.Form):
+    palabra_a_buscar = forms.CharField(label="Buscar")
+
+class AnimalForm(forms.Form):
+    nombre = forms.CharField(label="Nombre", max_length=100)
+    raza = forms.CharField(label="Raza", max_length=100)
+
+class VegetalForm(forms.Form):
+    nombre = forms.CharField(label="Nombre", max_length=100)

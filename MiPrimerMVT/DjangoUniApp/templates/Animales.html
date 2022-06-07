@@ -1,0 +1,48 @@
+{% extends "familia_lista.html" %}
+
+{% load bootstrap5 %}
+
+{% block cuerpo %}
+<div class="container">    
+  
+  <div class="row">
+    <div class="col">
+      {% url 'agregara' as agregara_url %}
+      {% url 'buscara' as buscara_url %}
+      {% bootstrap_button "Agregar" button_class="btn-success" button_type="link" href=agregara_url %} 
+      {% bootstrap_button "Buscar" button_class="btn-success" button_type="link" href=buscara_url %}  
+    <div>
+  <div>
+
+  <div class="row">
+    <div class="col">
+        {% if animales %}
+        <table class="table">
+            <thead>
+                <th scope="col">Identificador</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Raza</th>
+            
+            </thead>
+        
+            {% for animal in animales %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{animal.id}} </th>
+                    <td> {{animal.nombre}} </td>
+                    <td> {{animal.raza}} </td>
+
+                    
+                    {% url 'borrara' identificador=animal.id as borrara_url %}
+                    <td>{% bootstrap_button "Borrar Animal" size="sm" button_class="btn-danger" button_type="link" href=borrara_url %}</td>
+                </tr>  
+            </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>No tienes animales cargados</p>
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

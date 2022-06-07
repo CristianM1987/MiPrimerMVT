@@ -7,3 +7,11 @@ class Persona(models.Model):
     email = models.EmailField()
     edad = models.IntegerField()
     fecha_nacimiento = models.DateField()
+
+class Animal(models.Model):
+    nombre = models.CharField(max_length=100)
+    raza = models.CharField(max_length=100)
+
+
+class Vegetal(models.Model):
+    nombre = models.CharField(max_length=100)

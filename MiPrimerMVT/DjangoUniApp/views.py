@@ -1,8 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template import loader
-from DjangoUniApp.forms import PersonaForm, BuscarPersonasForm
-from .models import Persona
+from DjangoUniApp.forms import PersonaForm, BuscarPersonasForm, AnimalForm, VegetalForm, BuscarAnimalForm, BuscarVegetalForm
+from .models import Persona, Animal, Vegetal
 
 #def index(request):
    # personas = Persona.objects.all()
@@ -48,6 +48,57 @@ def agregar(request):
     
     return render(request, 'form_carga.html', {'form': form})
 
+def agregara(request):
+    '''
+    TODO: agregar un mensaje en el template index.html que avise al usuario que 
+    la persona fue cargada con éxito
+    '''
+
+    if request.method == "POST":
+        form = AnimalForm(request.POST)
+        if form.is_valid():
+
+            nombre = form.cleaned_data['nombre']
+            raza = form.cleaned_data['raza']
+            
+            Animal(nombre=nombre, raza=raza).save()
+
+            return HttpResponseRedirect("/DjangoUniApp/")
+    elif request.method == "GET":
+        form = AnimalForm()
+    else:
+        return HttpResponseBadRequest("Error no conzco ese metodo para esta request")
+
+    
+    return render(request, 'form_cargaanimal.html', {'form': form})
+
+def agregarv(request):
+    '''
+    TODO: agregar un mensaje en el template index.html que avise al usuario que 
+    la persona fue cargada con éxito
+    '''
+
+    if request.method == "POST":
+        form = VegetalForm(request.POST)
+        if form.is_valid():
+
+            nombre = form.cleaned_data['nombre']
+            
+            
+            Vegetal(nombre=nombre).save()
+
+            return HttpResponseRedirect("/DjangoUniApp/")
+    elif request.method == "GET":
+        form = VegetalForm()
+    else:
+        return HttpResponseBadRequest("Error no conzco ese metodo para esta request")
+
+    
+    return render(request, 'form_cargavegetal.html', {'form': form})
+
+
+
+
 
 def borrar(request, identificador):
     '''
@@ -58,6 +109,19 @@ def borrar(request, identificador):
         persona = Persona.objects.filter(id=int(identificador)).first()
         if persona:
             persona.delete()
+        return HttpResponseRedirect("/DjangoUniApp/")
+    else:
+        return HttpResponseBadRequest("Error no conzco ese metodo para esta request")
+
+def borrara(request, identificador):
+    '''
+    TODO: agregar un mensaje en el template index.html que avise al usuario que 
+    la persona fue eliminada con éxito        
+    '''
+    if request.method == "GET":
+        animal = Animal.objects.filter(id=int(identificador)).first()
+        if animal:
+            animal.delete()
         return HttpResponseRedirect("/DjangoUniApp/")
     else:
         return HttpResponseBadRequest("Error no conzco ese metodo para esta request")
@@ -82,3 +146,17 @@ def buscar(request):
            personas = Persona.objects.filter(nombre__icontains=palabra_a_buscar)
 
         return  render(request, 'MiembrosFamilia.html', {"personas": personas})
+
+
+def buscara(request):
+    if request.method == "GET":
+        form_busqueda = BuscarAnimalForm()
+        return render(request, 'form_busqueda_animal.html', {"form_busqueda": form_busqueda})
+
+    elif request.method == "POST":
+        form_busqueda = BuscarAnimalForm(request.POST)
+        if form_busqueda.is_valid():
+           palabra_a_buscar = form_busqueda.cleaned_data['palabra_a_buscar']
+           animales = Animal.objects.filter(nombre__icontains=palabra_a_buscar)
+
+        return  render(request, 'Animales.html', {"animales": animales})
