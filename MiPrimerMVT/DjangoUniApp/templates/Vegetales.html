@@ -1,0 +1,48 @@
+{% extends "familia_lista.html" %}
+
+{% load bootstrap5 %}
+
+{% block cuerpo %}
+<div class="container">    
+  
+  <div class="row">
+    <div class="col">
+      {% url 'agregarv' as agregarv_url %}
+      {% url 'buscarv' as buscarv_url %}
+      {% bootstrap_button "Agregar" button_class="btn-success" button_type="link" href=agregarv_url %} 
+      {% bootstrap_button "Buscar" button_class="btn-success" button_type="link" href=buscarv_url %}  
+    <div>
+  <div>
+
+  <div class="row">
+    <div class="col">
+        {% if vegetales %}
+        <table class="table">
+            <thead>
+                <th scope="col">Identificador</th>
+                <th scope="col">Nombre</th>
+
+            
+            </thead>
+        
+            {% for vegetal in vegetales %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{vegetal.id}} </th>
+                    <td> {{vegetal.nombre}} </td>
+
+
+                    
+                    {% url 'borrarv' identificador=vegetal.id as borrarv_url %}
+                    <td>{% bootstrap_button "Borrar Vegetal" size="sm" button_class="btn-danger" button_type="link" href=borrarv_url %}</td>
+                </tr>  
+            </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>No tienes vegetales cargados</p>
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

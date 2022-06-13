@@ -126,6 +126,19 @@ def borrara(request, identificador):
     else:
         return HttpResponseBadRequest("Error no conzco ese metodo para esta request")
 
+def borrarv(request, identificador):
+    '''
+    TODO: agregar un mensaje en el template index.html que avise al usuario que 
+    la persona fue eliminada con éxito        
+    '''
+    if request.method == "GET":
+        vegetal = Vegetal.objects.filter(id=int(identificador)).first()
+        if vegetal:
+            vegetal.delete()
+        return HttpResponseRedirect("/DjangoUniApp/")
+    else:
+        return HttpResponseBadRequest("Error no conzco ese metodo para esta request")
+
 
 def actualizar(request, identificador):
     '''
@@ -160,3 +173,16 @@ def buscara(request):
            animales = Animal.objects.filter(nombre__icontains=palabra_a_buscar)
 
         return  render(request, 'Animales.html', {"animales": animales})
+
+def buscarv(request):
+    if request.method == "GET":
+        form_busqueda = BuscarVegetalForm()
+        return render(request, 'form_busqueda_vegetal.html', {"form_busqueda": form_busqueda})
+
+    elif request.method == "POST":
+        form_busqueda = BuscarVegetalForm(request.POST)
+        if form_busqueda.is_valid():
+           palabra_a_buscar = form_busqueda.cleaned_data['palabra_a_buscar']
+           vegetales = Vegetal.objects.filter(nombre__icontains=palabra_a_buscar)
+
+        return  render(request, 'Vegetales.html', {"vegetales": vegetales})
