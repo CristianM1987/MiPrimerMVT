@@ -3,7 +3,7 @@
 Ejemplo de MVT (Model, View, Template), este codigo contiene:
  - Vistas 
  - Formularios
- - Modelos
+ - Modelos:Persona, Animal, Vegetal.
  - Templates
 
 **Fue probado con python 3.8.13 y Django 4.0.4**
